@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Heart, Flame, MessageCircle, Users } from 'lucide-react'
-import { colors, gradients, tracks } from '../theme.js'
+import { Heart, Flame, MessageCircle, Users, Music2 } from 'lucide-react'
+import { colors, gradients, glass, tracks } from '../theme.js'
 
 const friends = [
   { name: 'Alex', seed: 'f1', track: 'Blinding Lights', live: true },
@@ -27,98 +27,155 @@ export default function SocialScreen({ onPlayTrack }) {
 
   return (
     <div style={{ height: '100%', overflowY: 'auto', paddingBottom: 8 }}>
-      <div style={{ padding: '20px 20px 12px' }}>
-        <div style={{ color: colors.textPrimary, fontWeight: 900, fontSize: 22 }}>Social</div>
+
+      {/* Header */}
+      <div style={{
+        padding: '20px 20px 18px',
+        background: `radial-gradient(ellipse at 70% 10%, rgba(183,110,121,0.12) 0%, transparent 60%)`,
+      }}>
+        <div style={{ color: colors.textPrimary, fontWeight: 900, fontSize: 26, letterSpacing: -0.5 }}>Social</div>
+        <div style={{ color: colors.textMuted, fontSize: 13, marginTop: 4 }}>See what friends are listening to</div>
       </div>
 
-      {/* Friends listening now */}
-      <div style={{ padding: '0 20px 8px' }}>
-        <div style={{ color: colors.textPrimary, fontWeight: 700, fontSize: 15, marginBottom: 12 }}>Friends Listening Now</div>
-        <div style={{ display: 'flex', gap: 14, overflowX: 'auto', paddingBottom: 4 }}>
+      {/* Friends Listening Now — stories */}
+      <div style={{ padding: '0 20px 20px' }}>
+        <div style={{ color: colors.textPrimary, fontWeight: 700, fontSize: 15, marginBottom: 14 }}>
+          Friends Listening Now
+        </div>
+        <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 2 }}>
           {friends.map(f => (
             <div key={f.seed} style={{ flexShrink: 0, textAlign: 'center', cursor: 'pointer' }}>
               <div style={{ position: 'relative', display: 'inline-block' }}>
-                <img src={`https://picsum.photos/seed/${f.seed}/200/200`} alt={f.name}
-                  style={{
-                    width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', display: 'block',
-                    border: f.live ? `2px solid ${colors.accent}` : `2px solid ${colors.surfaceOverlay}`,
-                  }} />
+                {/* Animated ring for live */}
+                <div style={{
+                  width: 66, height: 66, borderRadius: '50%', padding: 2.5,
+                  background: f.live ? gradients.roseGold : 'rgba(0,0,0,0.08)',
+                  boxShadow: f.live ? '0 4px 18px rgba(183,110,121,0.30)' : 'none',
+                }}>
+                  <img src={`https://picsum.photos/seed/${f.seed}/200/200`} alt={f.name}
+                    style={{
+                      width: '100%', height: '100%', borderRadius: '50%',
+                      objectFit: 'cover', display: 'block',
+                    }} />
+                </div>
                 {f.live && (
                   <div style={{
                     position: 'absolute', bottom: 2, right: 2,
-                    width: 12, height: 12, borderRadius: '50%', background: colors.accent,
+                    width: 14, height: 14, borderRadius: '50%',
+                    background: colors.accentEmerald,
                     border: `2px solid ${colors.bg}`,
                   }} />
                 )}
               </div>
-              <div style={{ color: colors.textPrimary, fontWeight: 600, fontSize: 11, marginTop: 6 }}>{f.name}</div>
-              <div style={{ color: colors.textMuted, fontSize: 9, marginTop: 1, maxWidth: 60, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.track}</div>
+              <div style={{ color: colors.textPrimary, fontWeight: 600, fontSize: 11, marginTop: 7 }}>{f.name}</div>
+              <div style={{
+                color: f.live ? colors.accentRose : colors.textMuted,
+                fontSize: 9, marginTop: 1, maxWidth: 66,
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+              }}>{f.live ? '🎵 Live' : f.track}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Listening Party banner */}
-      <div style={{ margin: '12px 20px', padding: 18, borderRadius: 20, background: gradients.warm, cursor: 'pointer' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <div style={{ color: '#fff', fontWeight: 900, fontSize: 16 }}>Friday Night Vibes 🎉</div>
-            <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 12, marginTop: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Users size={13} /> 12 friends listening
+      {/* Listening Party Banner */}
+      <div style={{ margin: '0 20px 22px' }}>
+        <div style={{
+          padding: '18px 20px',
+          borderRadius: 22,
+          background: gradients.warmSunset,
+          cursor: 'pointer',
+          boxShadow: '0 8px 28px rgba(244,162,97,0.30)',
+          position: 'relative', overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', right: -20, top: -20, width: 110, height: 110, borderRadius: '50%', background: 'rgba(255,255,255,0.14)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
+            <div>
+              <div style={{ color: '#fff', fontWeight: 900, fontSize: 17 }}>Friday Night Vibes</div>
+              <div style={{ color: 'rgba(255,255,255,0.78)', fontSize: 12, marginTop: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Users size={13} /> 12 friends · Listening now
+              </div>
             </div>
+            <button style={{
+              background: 'rgba(255,255,255,0.28)',
+              backdropFilter: 'blur(8px)',
+              border: '1.5px solid rgba(255,255,255,0.60)',
+              color: '#fff', fontWeight: 800, fontSize: 13,
+              padding: '8px 20px', borderRadius: 24,
+              cursor: 'pointer',
+            }}>JOIN</button>
           </div>
-          <button style={{
-            background: 'rgba(255,255,255,0.25)', border: '1.5px solid rgba(255,255,255,0.5)',
-            color: '#fff', fontWeight: 800, fontSize: 13, padding: '8px 18px', borderRadius: 20,
-            cursor: 'pointer', fontFamily: 'Inter, sans-serif',
-          }}>JOIN</button>
         </div>
       </div>
 
-      {/* Activity feed */}
-      <div style={{ padding: '4px 20px 12px' }}>
-        <div style={{ color: colors.textPrimary, fontWeight: 800, fontSize: 16, marginBottom: 12 }}>Activity</div>
+      {/* Activity Feed */}
+      <div style={{ padding: '0 20px 12px' }}>
+        <div style={{ color: colors.textPrimary, fontWeight: 800, fontSize: 18, marginBottom: 14, letterSpacing: -0.3 }}>Activity</div>
+
         {feedItems.map(item => (
           <div key={item.id} style={{ marginBottom: 12 }}>
-            <div style={{ background: colors.surfaceCard, borderRadius: 16, padding: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
-                <img src={`https://picsum.photos/seed/${item.seed}/100/100`} alt={item.user}
-                  style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+            <div style={{
+              ...glass.card,
+              padding: 14,
+              border: '1px solid rgba(255,255,255,0.92)',
+            }}>
+              {/* User row */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 12 }}>
+                <div style={{
+                  width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+                  padding: 2,
+                  background: gradients.roseGold,
+                }}>
+                  <img src={`https://picsum.photos/seed/${item.seed}/100/100`} alt={item.user}
+                    style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', display: 'block' }} />
+                </div>
                 <div style={{ flex: 1 }}>
-                  <span style={{ color: colors.textPrimary, fontWeight: 700, fontSize: 13 }}>{item.user}</span>
-                  <span style={{ color: colors.textMuted, fontSize: 13 }}> {item.action}</span>
+                  <span style={{ color: colors.textPrimary, fontWeight: 800, fontSize: 13 }}>{item.user}</span>
+                  <span style={{ color: colors.textSecondary, fontSize: 13 }}> {item.action}</span>
                   <div style={{ color: colors.textMuted, fontSize: 11, marginTop: 2 }}>{item.time}</div>
                 </div>
               </div>
 
               {/* Track embed */}
               <div onClick={() => onPlayTrack(tracks[0])} style={{
-                display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px',
-                background: colors.surfaceElevated, borderRadius: 12, cursor: 'pointer',
-              }}>
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '10px 12px',
+                background: 'rgba(0,0,0,0.03)',
+                borderRadius: 14, cursor: 'pointer',
+                border: '1px solid rgba(0,0,0,0.04)',
+                transition: 'background 0.15s',
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.06)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.03)'}
+              >
                 <img src={`https://picsum.photos/seed/${item.cover}/100/100`} alt={item.track}
-                  style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+                  style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'cover', flexShrink: 0,
+                    boxShadow: '0 3px 10px rgba(0,0,0,0.10)' }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: colors.textPrimary, fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.track}</div>
+                  <div style={{ color: colors.textPrimary, fontWeight: 700, fontSize: 13,
+                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.track}</div>
                   <div style={{ color: colors.textMuted, fontSize: 11, marginTop: 2 }}>{item.artist}</div>
                 </div>
+                <Music2 size={16} color={colors.textMuted} style={{ flexShrink: 0 }} />
               </div>
 
               {/* Reactions */}
               <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
                 {[
-                  { type: 'heart', icon: <Heart size={14} />, count: item.hearts },
-                  { type: 'fire', icon: <Flame size={14} />, count: Math.floor(item.hearts * 0.6) },
-                  { type: 'comment', icon: <MessageCircle size={14} />, count: Math.floor(item.hearts * 0.3) },
-                ].map(({ type, icon, count }) => {
+                  { type: 'heart', icon: <Heart size={13} />, count: item.hearts, activeColor: colors.accentRose },
+                  { type: 'fire', icon: <Flame size={13} />, count: Math.floor(item.hearts * 0.6), activeColor: '#E17055' },
+                  { type: 'comment', icon: <MessageCircle size={13} />, count: Math.floor(item.hearts * 0.3), activeColor: colors.primary },
+                ].map(({ type, icon, count, activeColor }) => {
                   const active = reactions[`${item.id}_${type}`]
                   return (
                     <button key={type} onClick={() => toggleReaction(item.id, type)} style={{
-                      display: 'flex', alignItems: 'center', gap: 5, padding: '5px 10px', borderRadius: 20,
-                      background: active ? colors.primaryDim : colors.surfaceOverlay,
-                      border: `1px solid ${active ? colors.primary : 'transparent'}`,
-                      color: active ? colors.primary : colors.textMuted,
-                      cursor: 'pointer', fontSize: 12, fontWeight: 600, fontFamily: 'Inter, sans-serif',
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      padding: '5px 11px', borderRadius: 20,
+                      background: active ? `${activeColor}12` : 'rgba(0,0,0,0.04)',
+                      border: `1px solid ${active ? activeColor + '35' : 'transparent'}`,
+                      color: active ? activeColor : colors.textMuted,
+                      cursor: 'pointer', fontSize: 12, fontWeight: 600,
+                      transition: 'all 0.15s',
                     }}>
                       {icon} {count + (active ? 1 : 0)}
                     </button>
