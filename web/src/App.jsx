@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Home, Search, Compass, Library, Users } from 'lucide-react'
-import { colors } from './theme.js'
+import { colors, gradients, glass } from './theme.js'
 import HomeScreen from './components/HomeScreen.jsx'
 import SearchScreen from './components/SearchScreen.jsx'
 import DiscoverScreen from './components/DiscoverScreen.jsx'
@@ -35,45 +35,61 @@ export default function App() {
   return (
     <div style={{
       display: 'flex', justifyContent: 'center', alignItems: 'flex-start',
-      minHeight: '100vh', background: '#050508', padding: '0',
+      minHeight: '100vh',
+      background: 'linear-gradient(160deg, #F5F0FF 0%, #FFF5F0 30%, #F0F5FF 60%, #FFFFF0 100%)',
     }}>
+      {/* Phone shell */}
       <div style={{
         width: '100%', maxWidth: 430,
         minHeight: '100vh', background: colors.bg,
         display: 'flex', flexDirection: 'column',
         position: 'relative', overflow: 'hidden',
+        boxShadow: '0 0 80px rgba(0,0,0,0.12)',
       }}>
-        <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
-          <div style={{ position: 'absolute', inset: 0, display: activeTab === 'home' ? 'flex' : 'none', flexDirection: 'column' }}>
-            <HomeScreen {...screenProps} />
-          </div>
-          <div style={{ position: 'absolute', inset: 0, display: activeTab === 'search' ? 'flex' : 'none', flexDirection: 'column' }}>
-            <SearchScreen {...screenProps} />
-          </div>
-          <div style={{ position: 'absolute', inset: 0, display: activeTab === 'discover' ? 'flex' : 'none', flexDirection: 'column' }}>
-            <DiscoverScreen {...screenProps} />
-          </div>
-          <div style={{ position: 'absolute', inset: 0, display: activeTab === 'library' ? 'flex' : 'none', flexDirection: 'column' }}>
-            <LibraryScreen {...screenProps} />
-          </div>
-          <div style={{ position: 'absolute', inset: 0, display: activeTab === 'social' ? 'flex' : 'none', flexDirection: 'column' }}>
-            <SocialScreen {...screenProps} />
-          </div>
+        {/* Aurora mesh background layer */}
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
+          background: gradients.heroMesh,
+          maxWidth: 430,
+        }} />
+
+        {/* Screen content */}
+        <div style={{ flex: 1, overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+          {[
+            { id: 'home', Comp: HomeScreen },
+            { id: 'search', Comp: SearchScreen },
+            { id: 'discover', Comp: DiscoverScreen },
+            { id: 'library', Comp: LibraryScreen },
+            { id: 'social', Comp: SocialScreen },
+          ].map(({ id, Comp }) => (
+            <div key={id} style={{
+              position: 'absolute', inset: 0,
+              display: activeTab === id ? 'flex' : 'none',
+              flexDirection: 'column',
+            }}>
+              <Comp {...screenProps} />
+            </div>
+          ))}
         </div>
 
-        {currentTrack && (
-          <MiniPlayer
-            track={currentTrack}
-            isPlaying={isPlaying}
-            onTogglePlay={handleTogglePlay}
-            onOpen={() => setShowFullPlayer(true)}
-          />
+        {/* Mini Player */}
+        {currentTrack && !showFullPlayer && (
+          <div style={{ position: 'relative', zIndex: 10 }}>
+            <MiniPlayer
+              track={currentTrack}
+              isPlaying={isPlaying}
+              onTogglePlay={handleTogglePlay}
+              onOpen={() => setShowFullPlayer(true)}
+            />
+          </div>
         )}
 
+        {/* Glass Bottom Nav */}
         <div style={{
-          background: colors.surfaceCard,
-          borderTop: `1px solid ${colors.surfaceOverlay}`,
-          display: 'flex', paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+          ...glass.nav,
+          display: 'flex',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+          position: 'relative', zIndex: 10,
         }}>
           {tabs.map(({ id, label, icon: Icon }) => {
             const active = activeTab === id
@@ -82,21 +98,28 @@ export default function App() {
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
                 justifyContent: 'center', padding: '10px 0 12px',
                 background: 'none', border: 'none', cursor: 'pointer',
-                position: 'relative', gap: 3,
+                position: 'relative', gap: 3, transition: 'opacity 0.15s',
               }}>
                 {active && (
                   <div style={{
                     position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-                    width: 28, height: 3, borderRadius: '0 0 3px 3px',
-                    background: colors.primary,
+                    width: 24, height: 2.5, borderRadius: '0 0 3px 3px',
+                    background: colors.accent,
                   }} />
                 )}
-                <Icon size={22} color={active ? colors.primary : colors.textMuted}
-                  style={{ transition: 'color 0.15s' }} />
+                <div style={{
+                  padding: '4px 10px', borderRadius: 12,
+                  background: active ? `rgba(201,168,76,0.12)` : 'transparent',
+                  transition: 'background 0.2s',
+                }}>
+                  <Icon size={21} color={active ? colors.accent : colors.textMuted}
+                    strokeWidth={active ? 2.2 : 1.7}
+                    style={{ transition: 'color 0.15s' }} />
+                </div>
                 <span style={{
                   fontSize: 10, fontWeight: active ? 700 : 500,
-                  color: active ? colors.primary : colors.textMuted,
-                  transition: 'color 0.15s',
+                  color: active ? colors.accent : colors.textMuted,
+                  transition: 'color 0.15s', letterSpacing: 0.2,
                 }}>{label}</span>
               </button>
             )
@@ -104,6 +127,7 @@ export default function App() {
         </div>
       </div>
 
+      {/* Full Player overlay */}
       {showFullPlayer && currentTrack && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 1000,
