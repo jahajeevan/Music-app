@@ -1,0 +1,114 @@
+name: wavelength
+description: A world-class international music app.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Navigation
+  go_router: ^13.2.0
+
+  # Audio playback
+  just_audio: ^0.9.39
+  audio_service: ^0.18.14
+  just_audio_background: ^0.0.1-beta.13
+
+  # Backend
+  supabase_flutter: ^2.5.0
+
+  # HTTP & networking
+  dio: ^5.4.3
+  connectivity_plus: ^6.0.3
+
+  # Local storage
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+  drift: ^2.18.0
+  sqlite3_flutter_libs: ^0.5.23
+  path_provider: ^2.1.3
+  path: ^1.9.0
+
+  # UI & theming
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+  lottie: ^3.1.0
+  animations: ^2.0.11
+  flutter_animate: ^4.5.0
+  palette_generator: ^0.3.3+3
+
+  # Notifications & permissions
+  flutter_local_notifications: ^17.2.1
+  permission_handler: ^11.3.1
+  firebase_core: ^3.3.0
+  firebase_messaging: ^15.1.0
+
+  # In-app purchase
+  in_app_purchase: ^3.1.13
+
+  # Audio recording (hum-to-search)
+  record: ^5.1.1
+
+  # Image & media
+  image_picker: ^1.1.2
+  photo_view: ^0.15.0
+  video_player: ^2.9.1
+
+  # Haptics
+  haptic_feedback: ^0.5.1+1
+
+  # Utils
+  intl: ^0.19.0
+  url_launcher: ^6.3.0
+  share_plus: ^10.0.2
+  qr_flutter: ^4.1.0
+  barcode_scan2: ^4.3.3
+  rxdart: ^0.27.7
+  equatable: ^2.0.5
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  collection: ^1.18.0
+  fpdart: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.9
+  riverpod_generator: ^2.4.0
+  freezed: ^2.4.7
+  json_serializable: ^6.8.0
+  drift_dev: ^2.18.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+    - assets/fonts/
+
+  fonts:
+    - family: Satoshi
+      fonts:
+        - asset: assets/fonts/Satoshi-Regular.ttf
+        - asset: assets/fonts/Satoshi-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Satoshi-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Satoshi-Black.ttf
+          weight: 900
